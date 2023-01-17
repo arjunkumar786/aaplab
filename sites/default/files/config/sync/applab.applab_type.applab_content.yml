@@ -1,0 +1,8 @@
+uuid: c3c9f9a6-5b23-4d07-b6fb-d4887b42ee81
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: NWnD5rH9wkkJ7cUsxZ6hKobeR3v3ryTzi1qYX53DSpI
+id: applab_content
+label: 'Applab content'

@@ -1,0 +1,30 @@
+uuid: b74fa6cc-da67-4a25-bbd9-4a8887abecba
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.restricted_html
+    - workflows.workflow.review_content
+  module:
+    - applab
+    - comment
+    - contact
+    - content_moderation
+    - filter
+    - search
+    - system
+_core:
+  default_config_hash: 6WavjUYXIegP9AAg2zXGx54MWIVoomC3SZhNiqe-Dyk
+id: anonymous
+label: 'Anonymous user'
+weight: 0
+is_admin: false
+permissions:
+  - 'access comments'
+  - 'access content'
+  - 'access site-wide contact form'
+  - 'create applab'
+  - 'search content'
+  - 'use review_content transition create_new_draft'
+  - 'use text format restricted_html'
+  - 'view applab'

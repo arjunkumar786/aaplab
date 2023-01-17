@@ -1,0 +1,9 @@
+name: AppLab
+type: module
+description: 'Provides an applab entity.'
+package: Custom
+core_version_requirement: ^8 || ^9
+dependencies:
+  - workflows
+  - content_moderation
+  - drupal:text

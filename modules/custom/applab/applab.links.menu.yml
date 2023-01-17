@@ -1,0 +1,5 @@
+entity.applab_type.collection:
+  title: 'AppLab types'
+  description: 'Manage and CRUD actions on AppLab type.'
+  parent: system.admin_structure
+  route_name: entity.applab_type.collection

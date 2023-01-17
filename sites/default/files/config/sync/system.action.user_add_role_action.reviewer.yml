@@ -1,0 +1,16 @@
+uuid: 8a54bb2d-980f-4468-a457-447f460e58b2
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.reviewer
+  module:
+    - user
+_core:
+  default_config_hash: jxNZUp4FjsIB6E0qFWh-_jKIrokKqUu_G1BiGxfxhnI
+id: user_add_role_action.reviewer
+label: 'Add the Reviewer role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: reviewer

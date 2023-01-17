@@ -1,0 +1,59 @@
+uuid: 458e31e5-9deb-47b2-b768-9ee1a1167dda
+langcode: en
+status: true
+dependencies:
+  config:
+    - applab.applab_type.applab_content
+  module:
+    - content_moderation
+  enforced:
+    module:
+      - applab
+_core:
+  default_config_hash: oyc1v_owts1tbTDND14A7gv-krDYL4MbXn8QSkNv_lE
+id: review_content
+label: 'Review content'
+type: content_moderation
+type_settings:
+  states:
+    draft:
+      label: Draft
+      weight: 0
+      published: false
+      default_revision: false
+    published:
+      label: Published
+      weight: 1
+      published: true
+      default_revision: true
+    reject:
+      label: Reject
+      weight: 2
+      published: false
+      default_revision: false
+  transitions:
+    create_new_draft:
+      label: 'Create New Draft'
+      from:
+        - draft
+        - published
+      to: draft
+      weight: 0
+    publish:
+      label: Publish
+      from:
+        - draft
+        - published
+      to: published
+      weight: 1
+    reject:
+      label: Reject
+      from:
+        - draft
+        - published
+      to: reject
+      weight: 2
+  entity_types:
+    applab:
+      - applab_content
+  default_moderation_state: draft

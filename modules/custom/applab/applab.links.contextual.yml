@@ -1,0 +1,10 @@
+entity.applab.edit_form:
+  route_name: entity.applab.edit_form
+  group: applab
+  title: Edit
+
+entity.applab.delete_form:
+  route_name: entity.applab.delete_form
+  group: applab
+  title: Delete
+  weight: 10

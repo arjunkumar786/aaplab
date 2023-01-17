@@ -1,0 +1,33 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - workflows.workflow.review_content
+  module:
+    - applab
+    - content_moderation
+    - field_ui
+    - node
+    - system
+    - toolbar
+  enforced:
+    module:
+      - applab
+id: reviewer
+label: Reviewer
+weight: 4
+is_admin: null
+permissions:
+  - 'access applab overview'
+  - 'access content overview'
+  - 'access toolbar'
+  - 'administer applab display'
+  - 'administer applab form display'
+  - 'administer applab types'
+  - 'administer menu'
+  - 'delete applab'
+  - 'edit applab'
+  - 'use review_content transition publish'
+  - 'use review_content transition reject'
+  - 'view any unpublished content'
+  - 'view applab'

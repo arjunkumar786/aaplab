@@ -1,0 +1,26 @@
+entity.applab.view:
+  title: 'View'
+  route_name: entity.applab.canonical
+  base_route: entity.applab.canonical
+entity.applab.edit_form:
+  title: 'Edit'
+  route_name: entity.applab.edit_form
+  base_route: entity.applab.canonical
+entity.applab.delete_form:
+  title: 'Delete'
+  route_name: entity.applab.delete_form
+  base_route: entity.applab.canonical
+  weight: 10
+entity.applab.collection:
+  title: 'AppLabs'
+  route_name: entity.applab.collection
+  base_route: system.admin_content
+  weight: 10
+entity.applab_type.edit_form:
+  title: 'Edit'
+  route_name: entity.applab_type.edit_form
+  base_route: entity.applab_type.edit_form
+entity.applab_type.collection:
+  title: 'List'
+  route_name: entity.applab_type.collection
+  base_route: entity.applab_type.collection

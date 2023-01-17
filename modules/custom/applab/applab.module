@@ -1,0 +1,134 @@
+<?php
+
+/**
+ * @file
+ * Provides an applab entity type.
+ */
+
+use Drupal\Core\Render\Element;
+use Drupal\user\UserInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Access\AccessResult;
+
+/**
+ * Implements hook_theme().
+ */
+function applab_theme() {
+  return [
+    'applab' => [
+      'render element' => 'elements',
+    ],
+  ];
+}
+
+/**
+ * Prepares variables for applab templates.
+ *
+ * Default template: applab.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the applab information and any
+ *     fields attached to the entity.
+ *   - attributes: HTML attributes for the containing element.
+ */
+function template_preprocess_applab(array &$variables) {
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
+
+/**
+ * Implements hook_user_cancel().
+ */
+function applab_user_cancel($edit, UserInterface $account, $method) {
+  switch ($method) {
+    case 'user_cancel_block_unpublish':
+      // Unpublish applabs.
+      $storage = \Drupal::entityTypeManager()->getStorage('applab');
+      $applab_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->condition('status', 1)
+        ->execute();
+      foreach ($storage->loadMultiple($applab_ids) as $applab) {
+        $applab->set('status', FALSE);
+        $applab->save();
+      }
+      break;
+
+    case 'user_cancel_reassign':
+      // Anonymize applabs.
+      $storage = \Drupal::entityTypeManager()->getStorage('applab');
+      $applab_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->execute();
+      foreach ($storage->loadMultiple($applab_ids) as $applab) {
+        $applab->setOwnerId(0);
+        $applab->save();
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_predelete() for user entities.
+ */
+function applab_user_predelete(UserInterface $account) {
+  // Delete applabs.
+  $storage = \Drupal::entityTypeManager()->getStorage('applab');
+  $applab_ids = $storage->getQuery()
+    ->condition('uid', $account->id())
+    ->execute();
+  $applabs = $storage->loadMultiple($applab_ids);
+  $storage->delete($applabs);
+  // Delete old revisions.
+  $applab_ids = $storage->getQuery()
+    ->allRevisions()
+    ->condition('uid', $account->id())
+    ->execute();
+  foreach (array_keys($applab_ids) as $revision_id) {
+    $storage->deleteRevision($revision_id);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_access() for applab entities.
+ */
+function applab_entity_access(EntityInterface $entity, $operation, AccountInterface $account) {
+  if ($operation == 'view' && ($entity->getEntityTypeId() == 'applab' && $entity->status->getString() == '0')) {
+    return AccessResult::forbidden();
+  }
+  // No opinion.
+  return AccessResult::neutral();
+}
+
+/**
+ * Implements hook_cron() for applab entities.
+ */
+function applab_cron() {
+
+  // Search String in DB.
+  $mode_ids = Drupal::entityQuery('content_moderation_state')
+    ->condition('content_entity_type_id', 'applab')
+    ->condition('moderation_state', 'reject')
+    ->execute();
+
+  // Queuing the items for the next crone run.
+  $queue = \Drupal::service('queue')->get('cron_node_delete');
+  $item = new \stdClass();
+
+  // Process item in queue.
+  if ($mode_ids !== NULL) :
+    foreach ($mode_ids as $mode_id) {
+      $item->mode_id = $mode_id;
+      $queue->createItem($item);
+    }
+
+    // Message will once the items are queued.
+    $messenger = \Drupal::messenger();
+    $messenger->addMessage(t('Your content is being submitted for processed in queue!'));
+  endif;
+
+}

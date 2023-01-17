@@ -1,0 +1,11 @@
+applab.type_add:
+  title: 'Add applab type'
+  route_name: entity.applab_type.add_form
+  appears_on:
+    - entity.applab_type.collection
+
+applab.add_page:
+  title: 'Add applab'
+  route_name: entity.applab.add_page
+  appears_on:
+    - entity.applab.collection

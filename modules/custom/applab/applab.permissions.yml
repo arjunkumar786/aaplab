@@ -1,0 +1,12 @@
+administer applab types:
+  title: 'Administer applab types'
+  description: 'Maintain the types of applab entity.'
+  restrict access: true
+delete applab:
+  title: Delete applab
+create applab:
+  title: Create applab
+view applab:
+  title: View applab
+edit applab:
+  title: Edit applab
